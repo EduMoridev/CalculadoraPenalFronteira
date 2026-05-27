@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/EDUARDO/AppData/Roaming/Claude/local-agent-mode-sessions/skills-plugin/d1afab55-3b86-4b93-8494-a3d2322beddd/054497ac-e36e-4532-9496-944253c45b88/skills/xlsx/**)",
+      "Bash(python -c ' *)",
+      "Bash(py -3 -c ' *)",
+      "Read(//usr/**)",
+      "Bash(npm --version)",
+      "Bash(node -e ' *)",
+      "Bash(cd /tmp)",
+      "Bash(npm install *)",
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-turbopack)",
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-turbopack --name=\"calculadora-penal\")",
+      "Bash(npm init *)",
+      "Bash(node -e \"const p=require\\('./node_modules/next/package.json'\\); console.log\\(p.version\\)\")",
+      "Bash(node -e \"console.log\\(require\\('./node_modules/tailwindcss/package.json'\\).version\\)\")",
+      "Bash(ls node_modules/@tailwindcss)",
+      "Bash(node -e \"try{require\\('@tailwindcss/postcss'\\);console.log\\('postcss ok'\\)}catch\\(e\\){console.log\\('missing:',e.message.slice\\(0,60\\)\\)}\")",
+      "Bash(npm run *)",
+      "Bash(curl -s http://localhost:3000)",
+      "Bash(curl -s http://localhost:3000 -o /dev/null -w \"%{http_code}\")"
+    ]
+  }
+}

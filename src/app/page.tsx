@@ -8,6 +8,7 @@ import SummaryPanel from "@/components/SummaryPanel";
 import FronteiraLogo from "@/components/FronteiraLogo";
 import BoletimForm, { type BoletimData } from "@/components/BoletimForm";
 import OficiaisForm, { type Oficial } from "@/components/OficiaisForm";
+import AdvogadoForm, { type Advogado } from "@/components/AdvogadoForm";
 import type { CrimeCount } from "@/types";
 
 export default function Home() {
@@ -17,6 +18,8 @@ export default function Home() {
   const [reducaoManual, setReducaoManual] = useState(0);
   const [boletim, setBoletim] = useState<BoletimData>({ id: "", nome: "", partes: "" });
   const [oficiais, setOficiais] = useState<Oficial[]>([]);
+  const [oficiaisEnvolvidos, setOficiaisEnvolvidos] = useState<Oficial[]>([]);
+  const [advogados, setAdvogados] = useState<Advogado[]>([]);
   const [fianca, setFianca] = useState(false);
   const [showBoletimErrors, setShowBoletimErrors] = useState(false);
 
@@ -38,6 +41,8 @@ export default function Home() {
     setReducaoManual(0);
     setBoletim({ id: "", nome: "", partes: "" });
     setOficiais([]);
+    setOficiaisEnvolvidos([]);
+    setAdvogados([]);
     setFianca(false);
     setShowBoletimErrors(false);
   }, []);
@@ -228,8 +233,25 @@ export default function Home() {
         {/* Row 2: Dados do Boletim */}
         <BoletimForm data={boletim} onChange={setBoletim} showErrors={showBoletimErrors} />
 
-        {/* Row 3: Oficiais Responsáveis */}
-        <OficiaisForm oficiais={oficiais} onChange={setOficiais} />
+        {/* Row 3: Oficiais Responsáveis (3º Sargento+) */}
+        <OficiaisForm
+          title="Oficiais Responsáveis"
+          oficiais={oficiais}
+          onChange={setOficiais}
+          restricaoPatente
+        />
+
+        {/* Row 4: Oficiais Envolvidos (todos os cargos) */}
+        <OficiaisForm
+          title="Oficiais Envolvidos"
+          oficiais={oficiaisEnvolvidos}
+          onChange={setOficiaisEnvolvidos}
+        />
+
+        {/* Row 5: Advogado Responsável (oculto quando Fiança ativa) */}
+        {!fianca && (
+          <AdvogadoForm advogados={advogados} onChange={setAdvogados} />
+        )}
       </div>
 
       {/* ── Crime Categories ── */}
@@ -266,6 +288,8 @@ export default function Home() {
         fianca={fianca}
         boletim={boletim}
         oficiais={oficiais}
+        oficiaisEnvolvidos={oficiaisEnvolvidos}
+        advogados={advogados}
         onClear={handleClear}
         onCopyAttemptWithErrors={() => setShowBoletimErrors(true)}
       />

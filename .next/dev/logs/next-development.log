@@ -1,7 +1,16 @@
-{"timestamp":"00:00:01.790","source":"Server","level":"LOG","message":""}
-{"timestamp":"00:00:17.815","source":"Browser","level":"INFO","message":"%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"}
-{"timestamp":"00:05:14.858","source":"Server","level":"LOG","message":"✓ Compiled in 400ms"}
-{"timestamp":"00:05:15.007","source":"Server","level":"ERROR","message":"⨯ \"The requested resource isn't a valid image for\" \"/\" \"received\" null"}
-{"timestamp":"00:05:24.099","source":"Browser","level":"INFO","message":"%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"}
-{"timestamp":"00:05:24.130","source":"Server","level":"ERROR","message":"⨯ \"The requested resource isn't a valid image for\" \"/\" \"received\" null"}
-{"timestamp":"00:05:24.285","source":"Server","level":"ERROR","message":"⨯ \"The requested resource isn't a valid image for\" \"/\" \"received\" null"}
+{"timestamp":"00:00:02.523","source":"Server","level":"LOG","message":""}
+{"timestamp":"00:00:03.478","source":"Browser","level":"INFO","message":"%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"}
+{"timestamp":"00:00:03.659","source":"Server","level":"ERROR","message":"⨯ \"The requested resource isn't a valid image for\" \"/\" \"received\" null"}
+{"timestamp":"00:00:13.239","source":"Browser","level":"INFO","message":"%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"}
+{"timestamp":"00:00:13.252","source":"Server","level":"ERROR","message":"⨯ \"The requested resource isn't a valid image for\" \"/\" \"received\" null"}
+{"timestamp":"00:00:13.459","source":"Server","level":"ERROR","message":"⨯ \"The requested resource isn't a valid image for\" \"/\" \"received\" null"}
+{"timestamp":"00:01:25.172","source":"Server","level":"LOG","message":"✓ Compiled in 725ms"}
+{"timestamp":"00:01:41.553","source":"Server","level":"LOG","message":"✓ Compiled in 205ms"}
+{"timestamp":"00:02:30.246","source":"Server","level":"LOG","message":"✓ Compiled in 245ms"}
+{"timestamp":"00:02:38.847","source":"Server","level":"ERROR","message":"⨯ \"The requested resource isn't a valid image for\" \"/\" \"received\" null"}
+{"timestamp":"00:03:13.654","source":"Server","level":"LOG","message":"✓ Compiled in 43ms"}
+{"timestamp":"00:31:12.191","source":"Server","level":"LOG","message":"✓ Compiled in 279ms"}
+{"timestamp":"00:31:17.552","source":"Server","level":"LOG","message":"✓ Compiled in 50ms"}
+{"timestamp":"00:31:38.143","source":"Browser","level":"INFO","message":"%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"}
+{"timestamp":"00:31:38.165","source":"Server","level":"ERROR","message":"⨯ \"The requested resource isn't a valid image for\" \"/\" \"received\" null"}
+{"timestamp":"00:31:38.322","source":"Server","level":"ERROR","message":"⨯ \"The requested resource isn't a valid image for\" \"/\" \"received\" null"}

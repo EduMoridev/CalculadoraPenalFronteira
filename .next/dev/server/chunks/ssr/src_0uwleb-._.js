@@ -1613,6 +1613,12 @@ const PATENTES_MILITAR = [
     "Soldado",
     "Aluno"
 ];
+// Only 3º Sargento and above (Cabo, Soldado, Aluno excluded)
+const PATENTES_MILITAR_RESPONSAVEL = PATENTES_MILITAR.filter((p)=>![
+        "Cabo",
+        "Soldado",
+        "Aluno"
+    ].includes(p));
 const PATENTES_CIVIL = [
     "Delegado Geral",
     "Delegado Adjunto",
@@ -1626,8 +1632,9 @@ const PATENTES_CIVIL = [
     "Agente",
     "Agente Estagiário"
 ];
-function getPatentes(guarnicao) {
-    return guarnicao === "CIVIL" ? PATENTES_CIVIL : PATENTES_MILITAR;
+function getPatentes(guarnicao, restricao) {
+    if (guarnicao === "CIVIL") return PATENTES_CIVIL;
+    return restricao ? PATENTES_MILITAR_RESPONSAVEL : PATENTES_MILITAR;
 }
 const GUARNICAO_COLORS = {
     PRN: "bg-blue-900/60 text-blue-300 ring-blue-700/50",
@@ -1636,19 +1643,21 @@ const GUARNICAO_COLORS = {
     TATICA: "bg-orange-900/60 text-orange-300 ring-orange-700/50",
     CIVIL: "bg-violet-900/60 text-violet-300 ring-violet-700/50"
 };
-function OficiaisForm({ oficiais, onChange }) {
+function OficiaisForm({ title, oficiais, onChange, restricaoPatente = false }) {
     const [expanded, setExpanded] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const [guarnicao, setGuarnicao] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("PRN");
-    const [patente, setPatente] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(PATENTES_MILITAR[0]);
+    const [patente, setPatente] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(restricaoPatente ? PATENTES_MILITAR_RESPONSAVEL[0] : PATENTES_MILITAR[0]);
+    const [id, setId] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("");
     const [nome, setNome] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("");
     const handleGuarnicaoChange = (g)=>{
         setGuarnicao(g);
-        setPatente(getPatentes(g)[0]);
+        setPatente(getPatentes(g, restricaoPatente)[0]);
     };
     const handleAdd = ()=>{
         if (!nome.trim()) return;
         const novo = {
             uid: `${Date.now()}-${Math.random()}`,
+            id: id.trim(),
             guarnicao,
             patente,
             nome: nome.trim()
@@ -1657,6 +1666,7 @@ function OficiaisForm({ oficiais, onChange }) {
             ...oficiais,
             novo
         ]);
+        setId("");
         setNome("");
     };
     const handleRemove = (uid)=>{
@@ -1680,15 +1690,15 @@ function OficiaisForm({ oficiais, onChange }) {
                                 className: oficiais.length > 0 ? "text-teal-400" : "text-slate-500"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/OficiaisForm.tsx",
-                                lineNumber: 104,
+                                lineNumber: 123,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                 className: "text-[10px] font-semibold uppercase tracking-widest text-slate-400",
-                                children: "Nomes dos Oficiais Responsáveis"
+                                children: title
                             }, void 0, false, {
                                 fileName: "[project]/src/components/OficiaisForm.tsx",
-                                lineNumber: 105,
+                                lineNumber: 127,
                                 columnNumber: 11
                             }, this),
                             oficiais.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1696,13 +1706,13 @@ function OficiaisForm({ oficiais, onChange }) {
                                 children: oficiais.length
                             }, void 0, false, {
                                 fileName: "[project]/src/components/OficiaisForm.tsx",
-                                lineNumber: 109,
+                                lineNumber: 131,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                        lineNumber: 103,
+                        lineNumber: 122,
                         columnNumber: 9
                     }, this),
                     expanded ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$up$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronUp$3e$__["ChevronUp"], {
@@ -1710,20 +1720,20 @@ function OficiaisForm({ oficiais, onChange }) {
                         className: "text-slate-500"
                     }, void 0, false, {
                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                        lineNumber: 115,
-                        columnNumber: 13
+                        lineNumber: 137,
+                        columnNumber: 11
                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$down$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronDown$3e$__["ChevronDown"], {
                         size: 14,
                         className: "text-slate-500"
                     }, void 0, false, {
                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                        lineNumber: 116,
-                        columnNumber: 13
+                        lineNumber: 139,
+                        columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/OficiaisForm.tsx",
-                lineNumber: 99,
+                lineNumber: 118,
                 columnNumber: 7
             }, this),
             expanded && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1740,7 +1750,7 @@ function OficiaisForm({ oficiais, onChange }) {
                                         children: "Guarnição"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                                        lineNumber: 126,
+                                        lineNumber: 149,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -1752,18 +1762,18 @@ function OficiaisForm({ oficiais, onChange }) {
                                                 children: g
                                             }, g, false, {
                                                 fileName: "[project]/src/components/OficiaisForm.tsx",
-                                                lineNumber: 135,
+                                                lineNumber: 158,
                                                 columnNumber: 19
                                             }, this))
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                                        lineNumber: 129,
+                                        lineNumber: 152,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/OficiaisForm.tsx",
-                                lineNumber: 125,
+                                lineNumber: 148,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1774,30 +1784,59 @@ function OficiaisForm({ oficiais, onChange }) {
                                         children: "Patente"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                                        lineNumber: 142,
+                                        lineNumber: 167,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
                                         value: patente,
                                         onChange: (e)=>setPatente(e.target.value),
                                         className: "bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-slate-200 outline-none focus:border-teal-600/60 cursor-pointer w-full",
-                                        children: getPatentes(guarnicao).map((p)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                        children: getPatentes(guarnicao, restricaoPatente).map((p)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                                 value: p,
                                                 children: p
                                             }, p, false, {
                                                 fileName: "[project]/src/components/OficiaisForm.tsx",
-                                                lineNumber: 151,
+                                                lineNumber: 176,
                                                 columnNumber: 19
                                             }, this))
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                                        lineNumber: 145,
+                                        lineNumber: 170,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/OficiaisForm.tsx",
-                                lineNumber: 141,
+                                lineNumber: 166,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex flex-col gap-1 w-24",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                        className: "text-[9px] font-semibold uppercase tracking-widest text-slate-500",
+                                        children: "ID"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/OficiaisForm.tsx",
+                                        lineNumber: 185,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                        type: "text",
+                                        value: id,
+                                        onChange: (e)=>setId(e.target.value),
+                                        onKeyDown: handleKeyDown,
+                                        placeholder: "ID...",
+                                        className: "bg-slate-800/60 border border-slate-700 rounded-lg px-3 py-1.5 text-sm text-slate-200 placeholder-slate-600 outline-none focus:border-teal-600/60 focus:ring-1 focus:ring-teal-600/20 transition-all"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/OficiaisForm.tsx",
+                                        lineNumber: 188,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/components/OficiaisForm.tsx",
+                                lineNumber: 184,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1808,7 +1847,7 @@ function OficiaisForm({ oficiais, onChange }) {
                                         children: "Nome do Oficial"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                                        lineNumber: 158,
+                                        lineNumber: 200,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1820,13 +1859,13 @@ function OficiaisForm({ oficiais, onChange }) {
                                         className: "bg-slate-800/60 border border-slate-700 rounded-lg px-3 py-1.5 text-sm text-slate-200 placeholder-slate-600 outline-none focus:border-teal-600/60 focus:ring-1 focus:ring-teal-600/20 transition-all"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                                        lineNumber: 161,
+                                        lineNumber: 203,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/OficiaisForm.tsx",
-                                lineNumber: 157,
+                                lineNumber: 199,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1837,7 +1876,7 @@ function OficiaisForm({ oficiais, onChange }) {
                                         children: "_"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                                        lineNumber: 173,
+                                        lineNumber: 215,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1849,26 +1888,26 @@ function OficiaisForm({ oficiais, onChange }) {
                                                 size: 13
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/OficiaisForm.tsx",
-                                                lineNumber: 179,
+                                                lineNumber: 221,
                                                 columnNumber: 17
                                             }, this),
                                             "Adicionar"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                                        lineNumber: 174,
+                                        lineNumber: 216,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/OficiaisForm.tsx",
-                                lineNumber: 172,
+                                lineNumber: 214,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                        lineNumber: 123,
+                        lineNumber: 146,
                         columnNumber: 11
                     }, this),
                     oficiais.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1881,15 +1920,26 @@ function OficiaisForm({ oficiais, onChange }) {
                                         children: o.guarnicao
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                                        lineNumber: 193,
+                                        lineNumber: 235,
                                         columnNumber: 19
+                                    }, this),
+                                    o.id && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: "text-[10px] font-mono text-slate-500",
+                                        children: [
+                                            "#",
+                                            o.id
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/components/OficiaisForm.tsx",
+                                        lineNumber: 244,
+                                        columnNumber: 21
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         className: "text-xs text-slate-400",
                                         children: o.patente
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                                        lineNumber: 196,
+                                        lineNumber: 246,
                                         columnNumber: 19
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1897,7 +1947,7 @@ function OficiaisForm({ oficiais, onChange }) {
                                         children: o.nome
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                                        lineNumber: 197,
+                                        lineNumber: 247,
                                         columnNumber: 19
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1907,23 +1957,23 @@ function OficiaisForm({ oficiais, onChange }) {
                                             size: 11
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/OficiaisForm.tsx",
-                                            lineNumber: 202,
+                                            lineNumber: 252,
                                             columnNumber: 21
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                                        lineNumber: 198,
+                                        lineNumber: 248,
                                         columnNumber: 19
                                     }, this)
                                 ]
                             }, o.uid, true, {
                                 fileName: "[project]/src/components/OficiaisForm.tsx",
-                                lineNumber: 189,
+                                lineNumber: 231,
                                 columnNumber: 17
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                        lineNumber: 187,
+                        lineNumber: 229,
                         columnNumber: 13
                     }, this),
                     oficiais.length === 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1931,19 +1981,19 @@ function OficiaisForm({ oficiais, onChange }) {
                         children: "Nenhum oficial adicionado ainda."
                     }, void 0, false, {
                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                        lineNumber: 210,
+                        lineNumber: 260,
                         columnNumber: 13
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/OficiaisForm.tsx",
-                lineNumber: 121,
+                lineNumber: 144,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/OficiaisForm.tsx",
-        lineNumber: 97,
+        lineNumber: 116,
         columnNumber: 5
     }, this);
 }

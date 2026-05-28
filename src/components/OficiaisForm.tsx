@@ -5,6 +5,7 @@ import { Shield, Plus, X, ChevronDown, ChevronUp } from "lucide-react";
 
 export interface Oficial {
   uid: string;
+  id: string;
   guarnicao: string;
   patente: string;
   nome: string;
@@ -31,6 +32,11 @@ const PATENTES_MILITAR = [
   "Aluno",
 ];
 
+// Only 3º Sargento and above (Cabo, Soldado, Aluno excluded)
+const PATENTES_MILITAR_RESPONSAVEL = PATENTES_MILITAR.filter(
+  (p) => !["Cabo", "Soldado", "Aluno"].includes(p)
+);
+
 const PATENTES_CIVIL = [
   "Delegado Geral",
   "Delegado Adjunto",
@@ -45,8 +51,9 @@ const PATENTES_CIVIL = [
   "Agente Estagiário",
 ];
 
-function getPatentes(guarnicao: string): string[] {
-  return guarnicao === "CIVIL" ? PATENTES_CIVIL : PATENTES_MILITAR;
+function getPatentes(guarnicao: string, restricao: boolean): string[] {
+  if (guarnicao === "CIVIL") return PATENTES_CIVIL;
+  return restricao ? PATENTES_MILITAR_RESPONSAVEL : PATENTES_MILITAR;
 }
 
 const GUARNICAO_COLORS: Record<string, string> = {
@@ -58,30 +65,42 @@ const GUARNICAO_COLORS: Record<string, string> = {
 };
 
 interface Props {
+  title: string;
   oficiais: Oficial[];
   onChange: (oficiais: Oficial[]) => void;
+  restricaoPatente?: boolean;
 }
 
-export default function OficiaisForm({ oficiais, onChange }: Props) {
+export default function OficiaisForm({
+  title,
+  oficiais,
+  onChange,
+  restricaoPatente = false,
+}: Props) {
   const [expanded, setExpanded] = useState(false);
   const [guarnicao, setGuarnicao] = useState<string>("PRN");
-  const [patente, setPatente] = useState<string>(PATENTES_MILITAR[0]);
+  const [patente, setPatente] = useState<string>(
+    restricaoPatente ? PATENTES_MILITAR_RESPONSAVEL[0] : PATENTES_MILITAR[0]
+  );
+  const [id, setId] = useState("");
   const [nome, setNome] = useState("");
 
   const handleGuarnicaoChange = (g: string) => {
     setGuarnicao(g);
-    setPatente(getPatentes(g)[0]);
+    setPatente(getPatentes(g, restricaoPatente)[0]);
   };
 
   const handleAdd = () => {
     if (!nome.trim()) return;
     const novo: Oficial = {
       uid: `${Date.now()}-${Math.random()}`,
+      id: id.trim(),
       guarnicao,
       patente,
       nome: nome.trim(),
     };
     onChange([...oficiais, novo]);
+    setId("");
     setNome("");
   };
 
@@ -101,9 +120,12 @@ export default function OficiaisForm({ oficiais, onChange }: Props) {
         className="w-full flex items-center justify-between px-4 py-3 hover:bg-slate-800/40 transition-colors"
       >
         <div className="flex items-center gap-2">
-          <Shield size={13} className={oficiais.length > 0 ? "text-teal-400" : "text-slate-500"} />
+          <Shield
+            size={13}
+            className={oficiais.length > 0 ? "text-teal-400" : "text-slate-500"}
+          />
           <span className="text-[10px] font-semibold uppercase tracking-widest text-slate-400">
-            Nomes dos Oficiais Responsáveis
+            {title}
           </span>
           {oficiais.length > 0 && (
             <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-teal-600 text-white">
@@ -111,10 +133,11 @@ export default function OficiaisForm({ oficiais, onChange }: Props) {
             </span>
           )}
         </div>
-        {expanded
-          ? <ChevronUp size={14} className="text-slate-500" />
-          : <ChevronDown size={14} className="text-slate-500" />
-        }
+        {expanded ? (
+          <ChevronUp size={14} className="text-slate-500" />
+        ) : (
+          <ChevronDown size={14} className="text-slate-500" />
+        )}
       </button>
 
       {expanded && (
@@ -132,7 +155,9 @@ export default function OficiaisForm({ oficiais, onChange }: Props) {
                 className="bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-slate-200 outline-none focus:border-teal-600/60 cursor-pointer"
               >
                 {GUARNICOES.map((g) => (
-                  <option key={g} value={g}>{g}</option>
+                  <option key={g} value={g}>
+                    {g}
+                  </option>
                 ))}
               </select>
             </div>
@@ -147,10 +172,27 @@ export default function OficiaisForm({ oficiais, onChange }: Props) {
                 onChange={(e) => setPatente(e.target.value)}
                 className="bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-slate-200 outline-none focus:border-teal-600/60 cursor-pointer w-full"
               >
-                {getPatentes(guarnicao).map((p) => (
-                  <option key={p} value={p}>{p}</option>
+                {getPatentes(guarnicao, restricaoPatente).map((p) => (
+                  <option key={p} value={p}>
+                    {p}
+                  </option>
                 ))}
               </select>
+            </div>
+
+            {/* ID */}
+            <div className="flex flex-col gap-1 w-24">
+              <label className="text-[9px] font-semibold uppercase tracking-widest text-slate-500">
+                ID
+              </label>
+              <input
+                type="text"
+                value={id}
+                onChange={(e) => setId(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="ID..."
+                className="bg-slate-800/60 border border-slate-700 rounded-lg px-3 py-1.5 text-sm text-slate-200 placeholder-slate-600 outline-none focus:border-teal-600/60 focus:ring-1 focus:ring-teal-600/20 transition-all"
+              />
             </div>
 
             {/* Nome */}
@@ -190,9 +232,17 @@ export default function OficiaisForm({ oficiais, onChange }: Props) {
                   key={o.uid}
                   className="flex items-center gap-1.5 pl-1.5 pr-1 py-0.5 rounded-lg ring-1 bg-slate-800/80 ring-slate-600/50"
                 >
-                  <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded ring-1 ${GUARNICAO_COLORS[o.guarnicao] ?? "bg-slate-700 text-slate-300 ring-slate-600"}`}>
+                  <span
+                    className={`text-[9px] font-bold px-1.5 py-0.5 rounded ring-1 ${
+                      GUARNICAO_COLORS[o.guarnicao] ??
+                      "bg-slate-700 text-slate-300 ring-slate-600"
+                    }`}
+                  >
                     {o.guarnicao}
                   </span>
+                  {o.id && (
+                    <span className="text-[10px] font-mono text-slate-500">#{o.id}</span>
+                  )}
                   <span className="text-xs text-slate-400">{o.patente}</span>
                   <span className="text-xs font-medium text-slate-200">{o.nome}</span>
                   <button

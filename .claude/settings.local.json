@@ -18,7 +18,8 @@
       "Bash(node -e \"try{require\\('@tailwindcss/postcss'\\);console.log\\('postcss ok'\\)}catch\\(e\\){console.log\\('missing:',e.message.slice\\(0,60\\)\\)}\")",
       "Bash(npm run *)",
       "Bash(curl -s http://localhost:3000)",
-      "Bash(curl -s http://localhost:3000 -o /dev/null -w \"%{http_code}\")"
+      "Bash(curl -s http://localhost:3000 -o /dev/null -w \"%{http_code}\")",
+      "Bash(npx tsc *)"
     ]
   }
 }

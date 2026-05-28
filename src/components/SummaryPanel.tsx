@@ -6,6 +6,7 @@ import { CATEGORIES, formatMulra } from "@/data/crimes";
 import type { CrimeCount } from "@/types";
 import type { BoletimData } from "./BoletimForm";
 import type { Oficial } from "./OficiaisForm";
+import type { Advogado } from "./AdvogadoForm";
 
 interface Props {
   counts: CrimeCount;
@@ -19,8 +20,15 @@ interface Props {
   fianca: boolean;
   boletim: BoletimData;
   oficiais: Oficial[];
+  oficiaisEnvolvidos: Oficial[];
+  advogados: Advogado[];
   onClear: () => void;
   onCopyAttemptWithErrors: () => void;
+}
+
+function formatOficial(o: Oficial): string {
+  const idPart = o.id ? ` (ID: ${o.id})` : "";
+  return `[${o.guarnicao}]${idPart} ${o.patente} ${o.nome}`;
 }
 
 export default function SummaryPanel({
@@ -35,6 +43,8 @@ export default function SummaryPanel({
   fianca,
   boletim,
   oficiais,
+  oficiaisEnvolvidos,
+  advogados,
   onClear,
   onCopyAttemptWithErrors,
 }: Props) {
@@ -57,8 +67,12 @@ export default function SummaryPanel({
 
     const motivoList = selectedCrimes.map((c) => c.name).join(" | ");
 
-    const officiaisLine = oficiais.length > 0
-      ? oficiais.map((o) => `[${o.guarnicao}] ${o.patente} ${o.nome}`).join(" | ")
+    const responsaveisLine = oficiais.length > 0
+      ? oficiais.map(formatOficial).join(" | ")
+      : "—";
+
+    const envolvidosLine = oficiaisEnvolvidos.length > 0
+      ? oficiaisEnvolvidos.map(formatOficial).join(" | ")
       : "—";
 
     const reductionNotes: string[] = [];
@@ -78,13 +92,20 @@ export default function SummaryPanel({
       `Nome: ${boletim.nome}`,
       ...(boletim.partes.trim() ? [`Partes da ocorrência: ${boletim.partes.trim()}`] : []),
       `Motivo: ${motivoList}`,
-      `Nomes dos oficiais responsáveis: ${officiaisLine}`,
-      `Foto: `,
+      `Nomes dos oficiais responsáveis: ${responsaveisLine}`,
+      `Oficiais envolvidos: ${envolvidosLine}`,
+      ...(!fianca && advogados.length > 0
+        ? [`Advogado responsável: ${advogados.map((a) => {
+            const id = a.id ? ` (ID: ${a.id})` : "";
+            return `${a.cargo}${id} ${a.nome}`;
+          }).join(" | ")}`]
+        : []),
       "",
       `💰 ${multaOuFiancaLabel}: ${formatMulra(multaOuFiancaValor)}${multaOriginalNote}`,
       `⏳ Prisão: ${finalMeses} meses${hasReductions && baseMeses !== finalMeses ? ` (original: ${baseMeses} meses)` : ""}`,
       ...(reductionNotes.length > 0 ? [`📋 Reduções: ${reductionNotes.join(" · ")}`] : []),
       ...(fianca ? [`⚖️ Fiança calculada (sem advogado): multa ×3.5`] : []),
+      `Foto: `,
     ];
 
     navigator.clipboard.writeText(lines.join("\n")).then(() => {

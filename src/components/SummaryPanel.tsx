@@ -94,11 +94,15 @@ export default function SummaryPanel({
       `Motivo: ${motivoList}`,
       `Nomes dos oficiais responsáveis: ${responsaveisLine}`,
       `Oficiais envolvidos: ${envolvidosLine}`,
-      ...(!fianca && advogados.length > 0
-        ? [`Advogado responsável: ${advogados.map((a) => {
-            const id = a.id ? ` (ID: ${a.id})` : "";
-            return `${a.cargo}${id} ${a.nome}`;
-          }).join(" | ")}`]
+      ...(!fianca
+        ? [`Advogado responsável: ${
+            advogados.length > 0
+              ? advogados.map((a) => {
+                  const id = a.id ? ` (ID: ${a.id})` : "";
+                  return `${a.cargo}${id} ${a.nome}`;
+                }).join(" | ")
+              : "—"
+          }`]
         : []),
       "",
       `💰 ${multaOuFiancaLabel}: ${formatMulra(multaOuFiancaValor)}${multaOriginalNote}`,

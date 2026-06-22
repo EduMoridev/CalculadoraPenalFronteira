@@ -56,7 +56,8 @@ export default function SummaryPanel({
 
   const hasReductions = reuPrimario || reducaoManual > 0;
   const hasSelection = selectedCrimes.length > 0;
-  const missingRequired = !boletim.id.trim() || !boletim.nome.trim();
+  const missingRequired =
+    !boletim.id.trim() || !boletim.nome.trim() || oficiais.length === 0;
 
   const handleCopy = () => {
     if (!hasSelection) return;
@@ -67,13 +68,7 @@ export default function SummaryPanel({
 
     const motivoList = selectedCrimes.map((c) => c.name).join(" | ");
 
-    const responsaveisLine = oficiais.length > 0
-      ? oficiais.map(formatOficial).join(" | ")
-      : "—";
-
-    const envolvidosLine = oficiaisEnvolvidos.length > 0
-      ? oficiaisEnvolvidos.map(formatOficial).join(" | ")
-      : "—";
+    const responsaveisLine = oficiais.map(formatOficial).join(" | ");
 
     const reductionNotes: string[] = [];
     if (reuPrimario) reductionNotes.push("Réu Primário (multa -30% / pena -20%)");
@@ -93,16 +88,14 @@ export default function SummaryPanel({
       ...(boletim.partes.trim() ? [`Partes da ocorrência: ${boletim.partes.trim()}`] : []),
       `Motivo: ${motivoList}`,
       `Nomes dos oficiais responsáveis: ${responsaveisLine}`,
-      `Oficiais envolvidos: ${envolvidosLine}`,
-      ...(!fianca
-        ? [`Advogado responsável: ${
-            advogados.length > 0
-              ? advogados.map((a) => {
-                  const id = a.id ? ` (ID: ${a.id})` : "";
-                  return `${a.cargo}${id} ${a.nome}`;
-                }).join(" | ")
-              : "—"
-          }`]
+      ...(oficiaisEnvolvidos.length > 0
+        ? [`Oficiais envolvidos: ${oficiaisEnvolvidos.map(formatOficial).join(" | ")}`]
+        : []),
+      ...(!fianca && advogados.length > 0
+        ? [`Advogado responsável: ${advogados.map((a) => {
+            const id = a.id ? ` (ID: ${a.id})` : "";
+            return `${a.cargo}${id} ${a.nome}`;
+          }).join(" | ")}`]
         : []),
       "",
       `💰 ${multaOuFiancaLabel}: ${formatMulra(multaOuFiancaValor)}${multaOriginalNote}`,
@@ -119,7 +112,7 @@ export default function SummaryPanel({
   };
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-slate-700/50 bg-slate-950/96 backdrop-blur-md shadow-2xl">
+    <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-white/10 bg-black/40 backdrop-blur-xl shadow-[0_-1px_24px_rgba(16,185,129,0.06)]">
       <div className="max-w-7xl mx-auto px-4 py-3">
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
 
@@ -130,7 +123,7 @@ export default function SummaryPanel({
               label="Infrações"
               value={String(selectedCrimes.length)}
               highlight={hasSelection}
-              color="blue"
+              color="green"
             />
 
             <div className="h-6 w-px bg-slate-800 hidden sm:block" />
@@ -186,9 +179,9 @@ export default function SummaryPanel({
               <>
                 <div className="h-6 w-px bg-slate-800 hidden sm:block" />
                 <div className="flex items-center gap-1.5 flex-wrap">
-                  {(hasReductions) && <TrendingDown size={13} className="text-teal-400" />}
+                  {(hasReductions) && <TrendingDown size={13} className="text-emerald-400" />}
                   {reuPrimario && (
-                    <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-teal-900/50 text-teal-300 ring-1 ring-teal-700/50">
+                    <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-emerald-900/50 text-emerald-300 ring-1 ring-emerald-700/50">
                       Réu Primário
                     </span>
                   )}
@@ -230,7 +223,7 @@ export default function SummaryPanel({
             </div>
             {hasSelection && missingRequired && (
               <p className="text-[10px] text-red-500 font-medium">
-                Preencha ID e Nome antes de copiar
+                Preencha ID, Nome e o oficial responsável antes de copiar
               </p>
             )}
           </div>
@@ -247,10 +240,10 @@ function Stat({
   label: string;
   value: string;
   highlight: boolean;
-  color: "blue" | "emerald" | "orange";
+  color: "green" | "emerald" | "orange";
 }) {
   const colors = {
-    blue: highlight ? "text-blue-400" : "text-slate-600",
+    green: highlight ? "text-green-400" : "text-slate-600",
     emerald: highlight ? "text-emerald-400" : "text-slate-600",
     orange: highlight ? "text-orange-400" : "text-slate-600",
   };

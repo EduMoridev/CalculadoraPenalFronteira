@@ -11,25 +11,25 @@ interface Props {
 }
 
 const ringIdle = {
-  low: "ring-slate-700 hover:ring-blue-500",
+  low: "ring-white/10 hover:ring-green-500",
   medium: "ring-amber-800/60 hover:ring-amber-400",
   high: "ring-red-900/60 hover:ring-red-500",
 };
 
 const ringSelected = {
-  low: "ring-blue-500 bg-blue-950/50",
+  low: "ring-green-500 bg-green-950/50",
   medium: "ring-amber-400 bg-amber-950/50",
   high: "ring-red-500 bg-red-950/50",
 };
 
 const badgeColors = {
-  low: "bg-blue-900/70 text-blue-300",
+  low: "bg-green-900/70 text-green-300",
   medium: "bg-amber-900/70 text-amber-300",
   high: "bg-red-900/70 text-red-300",
 };
 
 const checkColors = {
-  low: "bg-blue-500",
+  low: "bg-green-500",
   medium: "bg-amber-500",
   high: "bg-red-500",
 };
@@ -43,8 +43,8 @@ export default function CrimeButton({ crime, selected, onChange }: Props) {
       aria-checked={selected}
       onClick={() => onChange(crime.id, !selected)}
       className={`
-        relative cursor-pointer rounded-xl p-3 ring-1 transition-all duration-150 select-none
-        bg-slate-900 hover:bg-slate-800/80
+        relative cursor-pointer rounded-xl p-3 ring-1 backdrop-blur-md transition-all duration-150 select-none
+        bg-white/5 hover:bg-white/10
         ${selected ? ringSelected[severity] : ringIdle[severity]}
       `}
     >

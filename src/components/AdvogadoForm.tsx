@@ -66,7 +66,7 @@ export default function AdvogadoForm({ advogados, onChange }: Props) {
   };
 
   return (
-    <div className="bg-slate-900 ring-1 ring-slate-700 rounded-xl overflow-hidden">
+    <div className="bg-white/5 backdrop-blur-md ring-1 ring-white/10 rounded-xl overflow-hidden">
       {/* Header / toggle */}
       <button
         onClick={() => setExpanded((v) => !v)}

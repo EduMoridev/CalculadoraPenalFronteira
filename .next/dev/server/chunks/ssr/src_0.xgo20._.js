@@ -608,22 +608,22 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$data$2f$crimes$2e$ts_
 ;
 ;
 const ringIdle = {
-    low: "ring-slate-700 hover:ring-blue-500",
+    low: "ring-white/10 hover:ring-green-500",
     medium: "ring-amber-800/60 hover:ring-amber-400",
     high: "ring-red-900/60 hover:ring-red-500"
 };
 const ringSelected = {
-    low: "ring-blue-500 bg-blue-950/50",
+    low: "ring-green-500 bg-green-950/50",
     medium: "ring-amber-400 bg-amber-950/50",
     high: "ring-red-500 bg-red-950/50"
 };
 const badgeColors = {
-    low: "bg-blue-900/70 text-blue-300",
+    low: "bg-green-900/70 text-green-300",
     medium: "bg-amber-900/70 text-amber-300",
     high: "bg-red-900/70 text-red-300"
 };
 const checkColors = {
-    low: "bg-blue-500",
+    low: "bg-green-500",
     medium: "bg-amber-500",
     high: "bg-red-500"
 };
@@ -634,8 +634,8 @@ function CrimeButton({ crime, selected, onChange }) {
         "aria-checked": selected,
         onClick: ()=>onChange(crime.id, !selected),
         className: `
-        relative cursor-pointer rounded-xl p-3 ring-1 transition-all duration-150 select-none
-        bg-slate-900 hover:bg-slate-800/80
+        relative cursor-pointer rounded-xl p-3 ring-1 backdrop-blur-md transition-all duration-150 select-none
+        bg-white/5 hover:bg-white/10
         ${selected ? ringSelected[severity] : ringIdle[severity]}
       `,
         children: [
@@ -749,7 +749,7 @@ function CategorySection({ category, counts, search, onChange }) {
                 className: "flex items-center gap-2.5 mb-4",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "p-1.5 rounded-lg bg-slate-800 text-slate-400",
+                        className: "p-1.5 rounded-lg bg-white/5 backdrop-blur-md ring-1 ring-white/10 text-slate-400",
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(Icon, {
                             size: 16
                         }, void 0, false, {
@@ -771,7 +771,7 @@ function CategorySection({ category, counts, search, onChange }) {
                         columnNumber: 9
                     }, this),
                     selectedInCategory > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                        className: "text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-blue-600 text-white",
+                        className: "text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-green-600 text-white",
                         children: selectedInCategory
                     }, void 0, false, {
                         fileName: "[project]/src/components/CategorySection.tsx",
@@ -779,7 +779,7 @@ function CategorySection({ category, counts, search, onChange }) {
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "flex-1 h-px bg-slate-800"
+                        className: "flex-1 h-px bg-white/10"
                     }, void 0, false, {
                         fileName: "[project]/src/components/CategorySection.tsx",
                         lineNumber: 54,
@@ -847,7 +847,7 @@ function SummaryPanel({ counts, baseMulta, baseMeses, finalMulta, finalMeses, fi
     const selectedCrimes = __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$data$2f$crimes$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CATEGORIES"].flatMap((cat)=>cat.crimes.filter((c)=>(counts[c.id] ?? 0) > 0));
     const hasReductions = reuPrimario || reducaoManual > 0;
     const hasSelection = selectedCrimes.length > 0;
-    const missingRequired = !boletim.id.trim() || !boletim.nome.trim();
+    const missingRequired = !boletim.id.trim() || !boletim.nome.trim() || oficiais.length === 0;
     const handleCopy = ()=>{
         if (!hasSelection) return;
         if (missingRequired) {
@@ -855,8 +855,7 @@ function SummaryPanel({ counts, baseMulta, baseMeses, finalMulta, finalMeses, fi
             return;
         }
         const motivoList = selectedCrimes.map((c)=>c.name).join(" | ");
-        const responsaveisLine = oficiais.length > 0 ? oficiais.map(formatOficial).join(" | ") : "—";
-        const envolvidosLine = oficiaisEnvolvidos.length > 0 ? oficiaisEnvolvidos.map(formatOficial).join(" | ") : "—";
+        const responsaveisLine = oficiais.map(formatOficial).join(" | ");
         const reductionNotes = [];
         if (reuPrimario) reductionNotes.push("Réu Primário (multa -30% / pena -20%)");
         if (reducaoManual > 0) reductionNotes.push(`Cooperação com oficial (-${reducaoManual}%)`);
@@ -871,7 +870,9 @@ function SummaryPanel({ counts, baseMulta, baseMeses, finalMulta, finalMeses, fi
             ] : [],
             `Motivo: ${motivoList}`,
             `Nomes dos oficiais responsáveis: ${responsaveisLine}`,
-            `Oficiais envolvidos: ${envolvidosLine}`,
+            ...oficiaisEnvolvidos.length > 0 ? [
+                `Oficiais envolvidos: ${oficiaisEnvolvidos.map(formatOficial).join(" | ")}`
+            ] : [],
             ...!fianca && advogados.length > 0 ? [
                 `Advogado responsável: ${advogados.map((a)=>{
                     const id = a.id ? ` (ID: ${a.id})` : "";
@@ -895,7 +896,7 @@ function SummaryPanel({ counts, baseMulta, baseMeses, finalMulta, finalMeses, fi
         });
     };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "fixed bottom-0 left-0 right-0 z-50 border-t border-slate-700/50 bg-slate-950/96 backdrop-blur-md shadow-2xl",
+        className: "fixed bottom-0 left-0 right-0 z-50 border-t border-white/10 bg-black/40 backdrop-blur-xl shadow-[0_-1px_24px_rgba(16,185,129,0.06)]",
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
             className: "max-w-7xl mx-auto px-4 py-3",
             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -909,23 +910,23 @@ function SummaryPanel({ counts, baseMulta, baseMeses, finalMulta, finalMeses, fi
                                     size: 14
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/SummaryPanel.tsx",
-                                    lineNumber: 125,
+                                    lineNumber: 122,
                                     columnNumber: 21
                                 }, this),
                                 label: "Infrações",
                                 value: String(selectedCrimes.length),
                                 highlight: hasSelection,
-                                color: "blue"
+                                color: "green"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/SummaryPanel.tsx",
-                                lineNumber: 124,
+                                lineNumber: 121,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "h-6 w-px bg-slate-800 hidden sm:block"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/SummaryPanel.tsx",
-                                lineNumber: 132,
+                                lineNumber: 129,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -937,18 +938,18 @@ function SummaryPanel({ counts, baseMulta, baseMeses, finalMulta, finalMeses, fi
                                             size: 14
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/SummaryPanel.tsx",
-                                            lineNumber: 137,
+                                            lineNumber: 134,
                                             columnNumber: 27
                                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$dollar$2d$sign$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__DollarSign$3e$__["DollarSign"], {
                                             size: 14
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/SummaryPanel.tsx",
-                                            lineNumber: 137,
+                                            lineNumber: 134,
                                             columnNumber: 49
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/SummaryPanel.tsx",
-                                        lineNumber: 136,
+                                        lineNumber: 133,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -958,7 +959,7 @@ function SummaryPanel({ counts, baseMulta, baseMeses, finalMulta, finalMeses, fi
                                                 children: fianca ? "Valor da Fiança" : "Multa Total"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/SummaryPanel.tsx",
-                                                lineNumber: 140,
+                                                lineNumber: 137,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -969,7 +970,7 @@ function SummaryPanel({ counts, baseMulta, baseMeses, finalMulta, finalMeses, fi
                                                         children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$data$2f$crimes$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatMulra"])(finalMulta)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/SummaryPanel.tsx",
-                                                        lineNumber: 145,
+                                                        lineNumber: 142,
                                                         columnNumber: 21
                                                     }, this),
                                                     !fianca && hasReductions && baseMulta > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -977,7 +978,7 @@ function SummaryPanel({ counts, baseMulta, baseMeses, finalMulta, finalMeses, fi
                                                         children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$data$2f$crimes$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatMulra"])(baseMulta)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/SummaryPanel.tsx",
-                                                        lineNumber: 148,
+                                                        lineNumber: 145,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -985,32 +986,32 @@ function SummaryPanel({ counts, baseMulta, baseMeses, finalMulta, finalMeses, fi
                                                         children: fianca ? finalFianca > 0 ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$data$2f$crimes$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatMulra"])(finalFianca) : "R$ 0" : finalMulta > 0 ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$data$2f$crimes$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatMulra"])(finalMulta) : "R$ 0"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/SummaryPanel.tsx",
-                                                        lineNumber: 150,
+                                                        lineNumber: 147,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/SummaryPanel.tsx",
-                                                lineNumber: 143,
+                                                lineNumber: 140,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/SummaryPanel.tsx",
-                                        lineNumber: 139,
+                                        lineNumber: 136,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/SummaryPanel.tsx",
-                                lineNumber: 135,
+                                lineNumber: 132,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "h-6 w-px bg-slate-800 hidden sm:block"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/SummaryPanel.tsx",
-                                lineNumber: 160,
+                                lineNumber: 157,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1022,12 +1023,12 @@ function SummaryPanel({ counts, baseMulta, baseMeses, finalMulta, finalMeses, fi
                                             size: 14
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/SummaryPanel.tsx",
-                                            lineNumber: 165,
+                                            lineNumber: 162,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/SummaryPanel.tsx",
-                                        lineNumber: 164,
+                                        lineNumber: 161,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1037,7 +1038,7 @@ function SummaryPanel({ counts, baseMulta, baseMeses, finalMulta, finalMeses, fi
                                                 children: "Prisão"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/SummaryPanel.tsx",
-                                                lineNumber: 168,
+                                                lineNumber: 165,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1051,7 +1052,7 @@ function SummaryPanel({ counts, baseMulta, baseMeses, finalMulta, finalMeses, fi
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/SummaryPanel.tsx",
-                                                        lineNumber: 171,
+                                                        lineNumber: 168,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1062,25 +1063,25 @@ function SummaryPanel({ counts, baseMulta, baseMeses, finalMulta, finalMeses, fi
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/SummaryPanel.tsx",
-                                                        lineNumber: 173,
+                                                        lineNumber: 170,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/SummaryPanel.tsx",
-                                                lineNumber: 169,
+                                                lineNumber: 166,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/SummaryPanel.tsx",
-                                        lineNumber: 167,
+                                        lineNumber: 164,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/SummaryPanel.tsx",
-                                lineNumber: 163,
+                                lineNumber: 160,
                                 columnNumber: 13
                             }, this),
                             (hasReductions || fianca) && hasSelection && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
@@ -1089,7 +1090,7 @@ function SummaryPanel({ counts, baseMulta, baseMeses, finalMulta, finalMeses, fi
                                         className: "h-6 w-px bg-slate-800 hidden sm:block"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/SummaryPanel.tsx",
-                                        lineNumber: 183,
+                                        lineNumber: 180,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1097,18 +1098,18 @@ function SummaryPanel({ counts, baseMulta, baseMeses, finalMulta, finalMeses, fi
                                         children: [
                                             hasReductions && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$trending$2d$down$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__TrendingDown$3e$__["TrendingDown"], {
                                                 size: 13,
-                                                className: "text-teal-400"
+                                                className: "text-emerald-400"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/SummaryPanel.tsx",
-                                                lineNumber: 185,
+                                                lineNumber: 182,
                                                 columnNumber: 39
                                             }, this),
                                             reuPrimario && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                className: "text-[10px] font-semibold px-1.5 py-0.5 rounded bg-teal-900/50 text-teal-300 ring-1 ring-teal-700/50",
+                                                className: "text-[10px] font-semibold px-1.5 py-0.5 rounded bg-emerald-900/50 text-emerald-300 ring-1 ring-emerald-700/50",
                                                 children: "Réu Primário"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/SummaryPanel.tsx",
-                                                lineNumber: 187,
+                                                lineNumber: 184,
                                                 columnNumber: 21
                                             }, this),
                                             reducaoManual > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1120,7 +1121,7 @@ function SummaryPanel({ counts, baseMulta, baseMeses, finalMulta, finalMeses, fi
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/SummaryPanel.tsx",
-                                                lineNumber: 192,
+                                                lineNumber: 189,
                                                 columnNumber: 21
                                             }, this),
                                             fianca && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1130,20 +1131,20 @@ function SummaryPanel({ counts, baseMulta, baseMeses, finalMulta, finalMeses, fi
                                                         size: 9
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/SummaryPanel.tsx",
-                                                        lineNumber: 198,
+                                                        lineNumber: 195,
                                                         columnNumber: 23
                                                     }, this),
                                                     "Fiança ×3.5"
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/SummaryPanel.tsx",
-                                                lineNumber: 197,
+                                                lineNumber: 194,
                                                 columnNumber: 21
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/SummaryPanel.tsx",
-                                        lineNumber: 184,
+                                        lineNumber: 181,
                                         columnNumber: 17
                                     }, this)
                                 ]
@@ -1151,7 +1152,7 @@ function SummaryPanel({ counts, baseMulta, baseMeses, finalMulta, finalMeses, fi
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/SummaryPanel.tsx",
-                        lineNumber: 122,
+                        lineNumber: 119,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1170,20 +1171,20 @@ function SummaryPanel({ counts, baseMulta, baseMeses, finalMulta, finalMeses, fi
                                                 className: "text-green-400"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/SummaryPanel.tsx",
-                                                lineNumber: 215,
+                                                lineNumber: 212,
                                                 columnNumber: 27
                                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$copy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Copy$3e$__["Copy"], {
                                                 size: 13
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/SummaryPanel.tsx",
-                                                lineNumber: 215,
+                                                lineNumber: 212,
                                                 columnNumber: 76
                                             }, this),
                                             copied ? "Copiado!" : "Copiar"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/SummaryPanel.tsx",
-                                        lineNumber: 210,
+                                        lineNumber: 207,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1195,56 +1196,56 @@ function SummaryPanel({ counts, baseMulta, baseMeses, finalMulta, finalMeses, fi
                                                 size: 13
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/SummaryPanel.tsx",
-                                                lineNumber: 223,
+                                                lineNumber: 220,
                                                 columnNumber: 17
                                             }, this),
                                             "Limpar"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/SummaryPanel.tsx",
-                                        lineNumber: 218,
+                                        lineNumber: 215,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/SummaryPanel.tsx",
-                                lineNumber: 209,
+                                lineNumber: 206,
                                 columnNumber: 13
                             }, this),
                             hasSelection && missingRequired && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                 className: "text-[10px] text-red-500 font-medium",
-                                children: "Preencha ID e Nome antes de copiar"
+                                children: "Preencha ID, Nome e o oficial responsável antes de copiar"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/SummaryPanel.tsx",
-                                lineNumber: 228,
+                                lineNumber: 225,
                                 columnNumber: 15
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/SummaryPanel.tsx",
-                        lineNumber: 208,
+                        lineNumber: 205,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/SummaryPanel.tsx",
-                lineNumber: 120,
+                lineNumber: 117,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/components/SummaryPanel.tsx",
-            lineNumber: 119,
+            lineNumber: 116,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/components/SummaryPanel.tsx",
-        lineNumber: 118,
+        lineNumber: 115,
         columnNumber: 5
     }, this);
 }
 function Stat({ icon, label, value, highlight, color }) {
     const colors = {
-        blue: highlight ? "text-blue-400" : "text-slate-600",
+        green: highlight ? "text-green-400" : "text-slate-600",
         emerald: highlight ? "text-emerald-400" : "text-slate-600",
         orange: highlight ? "text-orange-400" : "text-slate-600"
     };
@@ -1256,7 +1257,7 @@ function Stat({ icon, label, value, highlight, color }) {
                 children: icon
             }, void 0, false, {
                 fileName: "[project]/src/components/SummaryPanel.tsx",
-                lineNumber: 255,
+                lineNumber: 252,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1266,7 +1267,7 @@ function Stat({ icon, label, value, highlight, color }) {
                         children: label
                     }, void 0, false, {
                         fileName: "[project]/src/components/SummaryPanel.tsx",
-                        lineNumber: 257,
+                        lineNumber: 254,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1274,19 +1275,19 @@ function Stat({ icon, label, value, highlight, color }) {
                         children: value
                     }, void 0, false, {
                         fileName: "[project]/src/components/SummaryPanel.tsx",
-                        lineNumber: 258,
+                        lineNumber: 255,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/SummaryPanel.tsx",
-                lineNumber: 256,
+                lineNumber: 253,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/SummaryPanel.tsx",
-        lineNumber: 254,
+        lineNumber: 251,
         columnNumber: 5
     }, this);
 }
@@ -1315,7 +1316,7 @@ function MountainSVG({ size }) {
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
                 d: "M30 210 L58 158 L66 170 L76 148 L86 162 L98 122 L106 136 L114 112 L130 65 L146 112 L154 100 L162 122 L174 162 L184 148 L194 170 L202 158 L230 210 Q240 226 224 228 L152 228 L146 220 L130 226 L114 220 L108 228 L36 228 Q20 226 30 210 Z",
-                stroke: "#2dd4bf",
+                stroke: "#34d399",
                 strokeWidth: "3",
                 fill: "none",
                 strokeLinejoin: "round",
@@ -1327,7 +1328,7 @@ function MountainSVG({ size }) {
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
                 d: "M114 222 L120 175 L125 185 L130 158 L135 185 L140 175 L146 222",
-                stroke: "#2dd4bf",
+                stroke: "#34d399",
                 strokeWidth: "2",
                 fill: "none",
                 strokeLinejoin: "round",
@@ -1339,7 +1340,7 @@ function MountainSVG({ size }) {
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
                 d: "M52 218 L60 186 L66 195 L76 168 L83 180 L90 210",
-                stroke: "#2dd4bf",
+                stroke: "#34d399",
                 strokeWidth: "2",
                 fill: "none",
                 strokeLinejoin: "round",
@@ -1351,7 +1352,7 @@ function MountainSVG({ size }) {
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
                 d: "M170 210 L177 180 L184 168 L194 195 L200 186 L208 218",
-                stroke: "#2dd4bf",
+                stroke: "#34d399",
                 strokeWidth: "2",
                 fill: "none",
                 strokeLinejoin: "round",
@@ -1363,7 +1364,7 @@ function MountainSVG({ size }) {
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
                 d: "M108 226 L122 215 L130 220 L138 215 L152 226",
-                stroke: "#2dd4bf",
+                stroke: "#34d399",
                 strokeWidth: "2",
                 fill: "none",
                 strokeLinejoin: "round",
@@ -1447,7 +1448,7 @@ function Field({ label, value, onChange, placeholder, required, invalid, classNa
                 className: `
           bg-slate-800/60 border rounded-lg px-3 py-1.5 text-sm text-slate-200
           placeholder-slate-600 outline-none transition-all
-          ${invalid ? "border-red-600/70 ring-1 ring-red-600/30 focus:border-red-500" : "border-slate-700 focus:border-teal-600/60 focus:ring-1 focus:ring-teal-600/20"}
+          ${invalid ? "border-red-600/70 ring-1 ring-red-600/30 focus:border-red-500" : "border-slate-700 focus:border-emerald-600/60 focus:ring-1 focus:ring-emerald-600/20"}
         `
             }, void 0, false, {
                 fileName: "[project]/src/components/BoletimForm.tsx",
@@ -1475,7 +1476,7 @@ function BoletimForm({ data, onChange, showErrors = false }) {
                 [key]: val
             });
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "bg-slate-900 ring-1 ring-slate-700 rounded-xl px-4 py-3",
+        className: "bg-white/5 backdrop-blur-md ring-1 ring-white/10 rounded-xl px-4 py-3",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "flex items-center justify-between mb-3",
@@ -1655,7 +1656,7 @@ const GUARNICAO_COLORS = {
     TATICA: "bg-orange-900/60 text-orange-300 ring-orange-700/50",
     CIVIL: "bg-violet-900/60 text-violet-300 ring-violet-700/50"
 };
-function OficiaisForm({ title, oficiais, onChange, restricaoPatente = false }) {
+function OficiaisForm({ title, oficiais, onChange, restricaoPatente = false, required = false, invalid = false }) {
     const [expanded, setExpanded] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const [guarnicao, setGuarnicao] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("PRN");
     const [patente, setPatente] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(restricaoPatente ? PATENTES_MILITAR_RESPONSAVEL[0] : PATENTES_MILITAR[0]);
@@ -1688,7 +1689,7 @@ function OficiaisForm({ title, oficiais, onChange, restricaoPatente = false }) {
         if (e.key === "Enter") handleAdd();
     };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "bg-slate-900 ring-1 ring-slate-700 rounded-xl overflow-hidden",
+        className: `bg-white/5 backdrop-blur-md ring-1 rounded-xl overflow-hidden ${invalid ? "ring-red-600/70" : "ring-white/10"}`,
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                 onClick: ()=>setExpanded((v)=>!v),
@@ -1699,32 +1700,42 @@ function OficiaisForm({ title, oficiais, onChange, restricaoPatente = false }) {
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$shield$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Shield$3e$__["Shield"], {
                                 size: 13,
-                                className: oficiais.length > 0 ? "text-teal-400" : "text-slate-500"
-                            }, void 0, false, {
-                                fileName: "[project]/src/components/OficiaisForm.tsx",
-                                lineNumber: 123,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                className: "text-[10px] font-semibold uppercase tracking-widest text-slate-400",
-                                children: title
-                            }, void 0, false, {
-                                fileName: "[project]/src/components/OficiaisForm.tsx",
-                                lineNumber: 127,
-                                columnNumber: 11
-                            }, this),
-                            oficiais.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                className: "text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-teal-600 text-white",
-                                children: oficiais.length
+                                className: oficiais.length > 0 ? "text-emerald-400" : "text-slate-500"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/OficiaisForm.tsx",
                                 lineNumber: 131,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                className: "text-[10px] font-semibold uppercase tracking-widest text-slate-400 flex items-center gap-1",
+                                children: [
+                                    title,
+                                    required && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: "text-red-500 font-bold",
+                                        children: "*"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/OficiaisForm.tsx",
+                                        lineNumber: 137,
+                                        columnNumber: 26
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/components/OficiaisForm.tsx",
+                                lineNumber: 135,
+                                columnNumber: 11
+                            }, this),
+                            oficiais.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                className: "text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-emerald-600 text-white",
+                                children: oficiais.length
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/OficiaisForm.tsx",
+                                lineNumber: 140,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                        lineNumber: 122,
+                        lineNumber: 130,
                         columnNumber: 9
                     }, this),
                     expanded ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$up$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronUp$3e$__["ChevronUp"], {
@@ -1732,20 +1743,20 @@ function OficiaisForm({ title, oficiais, onChange, restricaoPatente = false }) {
                         className: "text-slate-500"
                     }, void 0, false, {
                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                        lineNumber: 137,
+                        lineNumber: 146,
                         columnNumber: 11
                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$down$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronDown$3e$__["ChevronDown"], {
                         size: 14,
                         className: "text-slate-500"
                     }, void 0, false, {
                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                        lineNumber: 139,
+                        lineNumber: 148,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/OficiaisForm.tsx",
-                lineNumber: 118,
+                lineNumber: 126,
                 columnNumber: 7
             }, this),
             expanded && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1762,30 +1773,30 @@ function OficiaisForm({ title, oficiais, onChange, restricaoPatente = false }) {
                                         children: "Guarnição"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                                        lineNumber: 149,
+                                        lineNumber: 158,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
                                         value: guarnicao,
                                         onChange: (e)=>handleGuarnicaoChange(e.target.value),
-                                        className: "bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-slate-200 outline-none focus:border-teal-600/60 cursor-pointer",
+                                        className: "bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-slate-200 outline-none focus:border-emerald-600/60 cursor-pointer",
                                         children: GUARNICOES.map((g)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                                 value: g,
                                                 children: g
                                             }, g, false, {
                                                 fileName: "[project]/src/components/OficiaisForm.tsx",
-                                                lineNumber: 158,
+                                                lineNumber: 167,
                                                 columnNumber: 19
                                             }, this))
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                                        lineNumber: 152,
+                                        lineNumber: 161,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/OficiaisForm.tsx",
-                                lineNumber: 148,
+                                lineNumber: 157,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1796,30 +1807,30 @@ function OficiaisForm({ title, oficiais, onChange, restricaoPatente = false }) {
                                         children: "Patente"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                                        lineNumber: 167,
+                                        lineNumber: 176,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
                                         value: patente,
                                         onChange: (e)=>setPatente(e.target.value),
-                                        className: "bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-slate-200 outline-none focus:border-teal-600/60 cursor-pointer w-full",
+                                        className: "bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-slate-200 outline-none focus:border-emerald-600/60 cursor-pointer w-full",
                                         children: getPatentes(guarnicao, restricaoPatente).map((p)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                                 value: p,
                                                 children: p
                                             }, p, false, {
                                                 fileName: "[project]/src/components/OficiaisForm.tsx",
-                                                lineNumber: 176,
+                                                lineNumber: 185,
                                                 columnNumber: 19
                                             }, this))
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                                        lineNumber: 170,
+                                        lineNumber: 179,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/OficiaisForm.tsx",
-                                lineNumber: 166,
+                                lineNumber: 175,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1830,7 +1841,7 @@ function OficiaisForm({ title, oficiais, onChange, restricaoPatente = false }) {
                                         children: "ID"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                                        lineNumber: 185,
+                                        lineNumber: 194,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1839,16 +1850,16 @@ function OficiaisForm({ title, oficiais, onChange, restricaoPatente = false }) {
                                         onChange: (e)=>setId(e.target.value),
                                         onKeyDown: handleKeyDown,
                                         placeholder: "ID...",
-                                        className: "bg-slate-800/60 border border-slate-700 rounded-lg px-3 py-1.5 text-sm text-slate-200 placeholder-slate-600 outline-none focus:border-teal-600/60 focus:ring-1 focus:ring-teal-600/20 transition-all"
+                                        className: "bg-slate-800/60 border border-slate-700 rounded-lg px-3 py-1.5 text-sm text-slate-200 placeholder-slate-600 outline-none focus:border-emerald-600/60 focus:ring-1 focus:ring-emerald-600/20 transition-all"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                                        lineNumber: 188,
+                                        lineNumber: 197,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/OficiaisForm.tsx",
-                                lineNumber: 184,
+                                lineNumber: 193,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1859,7 +1870,7 @@ function OficiaisForm({ title, oficiais, onChange, restricaoPatente = false }) {
                                         children: "Nome do Oficial"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                                        lineNumber: 200,
+                                        lineNumber: 209,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1868,16 +1879,16 @@ function OficiaisForm({ title, oficiais, onChange, restricaoPatente = false }) {
                                         onChange: (e)=>setNome(e.target.value),
                                         onKeyDown: handleKeyDown,
                                         placeholder: "Nome completo...",
-                                        className: "bg-slate-800/60 border border-slate-700 rounded-lg px-3 py-1.5 text-sm text-slate-200 placeholder-slate-600 outline-none focus:border-teal-600/60 focus:ring-1 focus:ring-teal-600/20 transition-all"
+                                        className: "bg-slate-800/60 border border-slate-700 rounded-lg px-3 py-1.5 text-sm text-slate-200 placeholder-slate-600 outline-none focus:border-emerald-600/60 focus:ring-1 focus:ring-emerald-600/20 transition-all"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                                        lineNumber: 203,
+                                        lineNumber: 212,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/OficiaisForm.tsx",
-                                lineNumber: 199,
+                                lineNumber: 208,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1888,38 +1899,38 @@ function OficiaisForm({ title, oficiais, onChange, restricaoPatente = false }) {
                                         children: "_"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                                        lineNumber: 215,
+                                        lineNumber: 224,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                         onClick: handleAdd,
                                         disabled: !nome.trim(),
-                                        className: "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-teal-700 hover:bg-teal-600 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all",
+                                        className: "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-700 hover:bg-emerald-600 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all",
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$plus$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Plus$3e$__["Plus"], {
                                                 size: 13
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/OficiaisForm.tsx",
-                                                lineNumber: 221,
+                                                lineNumber: 230,
                                                 columnNumber: 17
                                             }, this),
                                             "Adicionar"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                                        lineNumber: 216,
+                                        lineNumber: 225,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/OficiaisForm.tsx",
-                                lineNumber: 214,
+                                lineNumber: 223,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                        lineNumber: 146,
+                        lineNumber: 155,
                         columnNumber: 11
                     }, this),
                     oficiais.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1932,7 +1943,7 @@ function OficiaisForm({ title, oficiais, onChange, restricaoPatente = false }) {
                                         children: o.guarnicao
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                                        lineNumber: 235,
+                                        lineNumber: 244,
                                         columnNumber: 19
                                     }, this),
                                     o.id && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1943,7 +1954,7 @@ function OficiaisForm({ title, oficiais, onChange, restricaoPatente = false }) {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                                        lineNumber: 244,
+                                        lineNumber: 253,
                                         columnNumber: 21
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1951,7 +1962,7 @@ function OficiaisForm({ title, oficiais, onChange, restricaoPatente = false }) {
                                         children: o.patente
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                                        lineNumber: 246,
+                                        lineNumber: 255,
                                         columnNumber: 19
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1959,7 +1970,7 @@ function OficiaisForm({ title, oficiais, onChange, restricaoPatente = false }) {
                                         children: o.nome
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                                        lineNumber: 247,
+                                        lineNumber: 256,
                                         columnNumber: 19
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1969,43 +1980,43 @@ function OficiaisForm({ title, oficiais, onChange, restricaoPatente = false }) {
                                             size: 11
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/OficiaisForm.tsx",
-                                            lineNumber: 252,
+                                            lineNumber: 261,
                                             columnNumber: 21
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                                        lineNumber: 248,
+                                        lineNumber: 257,
                                         columnNumber: 19
                                     }, this)
                                 ]
                             }, o.uid, true, {
                                 fileName: "[project]/src/components/OficiaisForm.tsx",
-                                lineNumber: 231,
+                                lineNumber: 240,
                                 columnNumber: 17
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                        lineNumber: 229,
+                        lineNumber: 238,
                         columnNumber: 13
                     }, this),
                     oficiais.length === 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                        className: "text-[11px] text-slate-600 mt-3 italic",
-                        children: "Nenhum oficial adicionado ainda."
+                        className: `text-[11px] mt-3 italic ${invalid ? "text-red-500" : "text-slate-600"}`,
+                        children: invalid ? "Campo obrigatório: adicione ao menos um oficial." : "Nenhum oficial adicionado ainda."
                     }, void 0, false, {
                         fileName: "[project]/src/components/OficiaisForm.tsx",
-                        lineNumber: 260,
+                        lineNumber: 269,
                         columnNumber: 13
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/OficiaisForm.tsx",
-                lineNumber: 144,
+                lineNumber: 153,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/OficiaisForm.tsx",
-        lineNumber: 116,
+        lineNumber: 120,
         columnNumber: 5
     }, this);
 }
@@ -2077,7 +2088,7 @@ function AdvogadoForm({ advogados, onChange }) {
         if (e.key === "Enter") handleAdd();
     };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "bg-slate-900 ring-1 ring-slate-700 rounded-xl overflow-hidden",
+        className: "bg-white/5 backdrop-blur-md ring-1 ring-white/10 rounded-xl overflow-hidden",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                 onClick: ()=>setExpanded((v)=>!v),
@@ -2404,6 +2415,7 @@ function Home() {
     const [advogados, setAdvogados] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])([]);
     const [fianca, setFianca] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const [showBoletimErrors, setShowBoletimErrors] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [showOficiaisErrors, setShowOficiaisErrors] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const handleChange = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useCallback"])((id, selected)=>{
         setCounts((prev)=>{
             if (!selected) {
@@ -2434,6 +2446,7 @@ function Home() {
         setAdvogados([]);
         setFianca(false);
         setShowBoletimErrors(false);
+        setShowOficiaisErrors(false);
     }, []);
     const { baseMulta, baseMeses, finalMulta, finalMeses, finalFianca } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useMemo"])(()=>{
         let multa = 0;
@@ -2472,10 +2485,10 @@ function Home() {
         setReducaoManual(Math.min(100, Math.max(0, n)));
     };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "min-h-screen bg-slate-950 pb-28",
+        className: "min-h-screen pb-28",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("header", {
-                className: "sticky top-0 z-40 bg-slate-950/90 backdrop-blur-md border-b border-slate-800",
+                className: "sticky top-0 z-40 bg-black/30 backdrop-blur-xl border-b border-white/10 shadow-[0_1px_24px_rgba(16,185,129,0.06)]",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     className: "max-w-7xl mx-auto px-4 py-2.5 flex items-center justify-between gap-4",
                     children: [
@@ -2486,7 +2499,7 @@ function Home() {
                                     size: 40
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 88,
+                                    lineNumber: 90,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2495,28 +2508,28 @@ function Home() {
                                         children: "Calculadora Penal Fronteira"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 90,
+                                        lineNumber: 92,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 89,
+                                    lineNumber: 91,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/page.tsx",
-                            lineNumber: 87,
+                            lineNumber: 89,
                             columnNumber: 11
                         }, this),
                         selectedCount > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "hidden md:flex items-center gap-2 text-xs text-slate-400",
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                    className: "w-2 h-2 rounded-full bg-blue-500 animate-pulse"
+                                    className: "w-2 h-2 rounded-full bg-green-500 animate-pulse"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 98,
+                                    lineNumber: 100,
                                     columnNumber: 15
                                 }, this),
                                 selectedCount,
@@ -2525,7 +2538,7 @@ function Home() {
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/page.tsx",
-                            lineNumber: 97,
+                            lineNumber: 99,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2536,7 +2549,7 @@ function Home() {
                                     className: "absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 104,
+                                    lineNumber: 106,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -2544,10 +2557,10 @@ function Home() {
                                     value: search,
                                     onChange: (e)=>setSearch(e.target.value),
                                     placeholder: "Buscar crime...",
-                                    className: "w-full bg-slate-800/80 border border-slate-700 rounded-lg pl-8 pr-8 py-1.5 text-sm text-slate-200 placeholder-slate-500 outline-none focus:border-teal-600 focus:ring-1 focus:ring-teal-600/30 transition-all"
+                                    className: "w-full bg-white/5 backdrop-blur-md border border-white/10 rounded-lg pl-8 pr-8 py-1.5 text-sm text-slate-200 placeholder-slate-500 outline-none focus:border-emerald-500/60 focus:ring-1 focus:ring-emerald-500/30 transition-all"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 105,
+                                    lineNumber: 107,
                                     columnNumber: 13
                                 }, this),
                                 search && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2557,29 +2570,29 @@ function Home() {
                                         size: 13
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 117,
+                                        lineNumber: 119,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 113,
+                                    lineNumber: 115,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/page.tsx",
-                            lineNumber: 103,
+                            lineNumber: 105,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/page.tsx",
-                    lineNumber: 86,
+                    lineNumber: 88,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/page.tsx",
-                lineNumber: 85,
+                lineNumber: 87,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2592,13 +2605,13 @@ function Home() {
                                 onClick: ()=>setReuPrimario((v)=>!v),
                                 className: `
               flex items-center gap-3 px-4 py-3 rounded-xl ring-1 transition-all duration-200 flex-1 sm:flex-none text-left
-              ${reuPrimario ? "bg-teal-950/60 ring-teal-500 shadow-[0_0_16px_rgba(45,212,191,0.12)]" : "bg-slate-900 ring-slate-700 hover:ring-slate-500"}
+              ${reuPrimario ? "bg-emerald-950/60 ring-emerald-500 shadow-[0_0_16px_rgba(16,185,129,0.14)]" : "bg-white/5 backdrop-blur-md ring-white/10 hover:ring-white/20"}
             `,
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: `
               w-5 h-5 rounded-md ring-1 flex items-center justify-center transition-all shrink-0
-              ${reuPrimario ? "bg-teal-500 ring-teal-400" : "bg-slate-800 ring-slate-600"}
+              ${reuPrimario ? "bg-emerald-500 ring-emerald-400" : "bg-slate-800 ring-slate-600"}
             `,
                                         children: reuPrimario && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
                                             width: "10",
@@ -2613,17 +2626,17 @@ function Home() {
                                                 strokeLinejoin: "round"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 146,
+                                                lineNumber: 148,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 145,
+                                            lineNumber: 147,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 140,
+                                        lineNumber: 142,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2633,24 +2646,24 @@ function Home() {
                                                 children: [
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$user$2d$check$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__UserCheck$3e$__["UserCheck"], {
                                                         size: 14,
-                                                        className: reuPrimario ? "text-teal-400" : "text-slate-500"
+                                                        className: reuPrimario ? "text-emerald-400" : "text-slate-500"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 152,
+                                                        lineNumber: 154,
                                                         columnNumber: 17
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                        className: `text-sm font-semibold ${reuPrimario ? "text-teal-300" : "text-slate-300"}`,
+                                                        className: `text-sm font-semibold ${reuPrimario ? "text-emerald-300" : "text-slate-300"}`,
                                                         children: "Réu Primário"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 153,
+                                                        lineNumber: 155,
                                                         columnNumber: 17
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 151,
+                                                lineNumber: 153,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2658,45 +2671,45 @@ function Home() {
                                                 children: [
                                                     "Multa ",
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                        className: "text-teal-500/80",
+                                                        className: "text-emerald-500/80",
                                                         children: "−30%"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 158,
+                                                        lineNumber: 160,
                                                         columnNumber: 23
                                                     }, this),
                                                     " · Pena ",
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                        className: "text-teal-500/80",
+                                                        className: "text-emerald-500/80",
                                                         children: "−20%"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 158,
-                                                        columnNumber: 77
+                                                        lineNumber: 160,
+                                                        columnNumber: 80
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 157,
+                                                lineNumber: 159,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 150,
+                                        lineNumber: 152,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/page.tsx",
-                                lineNumber: 130,
+                                lineNumber: 132,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                 onClick: ()=>setFianca((v)=>!v),
                                 className: `
               flex items-center gap-3 px-4 py-3 rounded-xl ring-1 transition-all duration-200 flex-1 sm:flex-none text-left
-              ${fianca ? "bg-amber-950/60 ring-amber-500 shadow-[0_0_16px_rgba(245,158,11,0.15)]" : "bg-slate-900 ring-slate-700 hover:ring-slate-500"}
+              ${fianca ? "bg-amber-950/60 ring-amber-500 shadow-[0_0_16px_rgba(245,158,11,0.15)]" : "bg-white/5 backdrop-blur-md ring-white/10 hover:ring-white/20"}
             `,
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2717,17 +2730,17 @@ function Home() {
                                                 strokeLinejoin: "round"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 180,
+                                                lineNumber: 182,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 179,
+                                            lineNumber: 181,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 174,
+                                        lineNumber: 176,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2740,7 +2753,7 @@ function Home() {
                                                         className: fianca ? "text-amber-400" : "text-slate-500"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 186,
+                                                        lineNumber: 188,
                                                         columnNumber: 17
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2748,13 +2761,13 @@ function Home() {
                                                         children: "Sem Advogado"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 187,
+                                                        lineNumber: 189,
                                                         columnNumber: 17
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 185,
+                                                lineNumber: 187,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2766,30 +2779,30 @@ function Home() {
                                                         children: "×3.5"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 192,
+                                                        lineNumber: 194,
                                                         columnNumber: 24
                                                     }, this),
                                                     " da multa"
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 191,
+                                                lineNumber: 193,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 184,
+                                        lineNumber: 186,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/page.tsx",
-                                lineNumber: 164,
+                                lineNumber: 166,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "flex-1 bg-slate-900 ring-1 ring-slate-700 rounded-xl px-4 py-3",
+                                className: "flex-1 bg-white/5 backdrop-blur-md ring-1 ring-white/10 rounded-xl px-4 py-3",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "flex items-center justify-between mb-2",
@@ -2802,7 +2815,7 @@ function Home() {
                                                         className: reducaoManual > 0 ? "text-violet-400" : "text-slate-500"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 201,
+                                                        lineNumber: 203,
                                                         columnNumber: 17
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2810,13 +2823,13 @@ function Home() {
                                                         children: "Redução por Cooperação"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 202,
+                                                        lineNumber: 204,
                                                         columnNumber: 17
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 200,
+                                                lineNumber: 202,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2831,7 +2844,7 @@ function Home() {
                                                         className: "w-12 text-center text-sm font-bold font-mono bg-slate-800 border border-slate-700 rounded-md py-0.5 text-violet-300 outline-none focus:border-violet-500 transition-colors"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 205,
+                                                        lineNumber: 207,
                                                         columnNumber: 17
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2839,19 +2852,19 @@ function Home() {
                                                         children: "%"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/page.tsx",
-                                                        lineNumber: 213,
+                                                        lineNumber: 215,
                                                         columnNumber: 17
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 204,
+                                                lineNumber: 206,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 199,
+                                        lineNumber: 201,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -2864,7 +2877,7 @@ function Home() {
                                         className: "w-full h-1.5 rounded-full appearance-none cursor-pointer accent-violet-500 bg-slate-700"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 216,
+                                        lineNumber: 218,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2875,7 +2888,7 @@ function Home() {
                                                 children: "0%"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 226,
+                                                lineNumber: 228,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2883,7 +2896,7 @@ function Home() {
                                                 children: "50%"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 227,
+                                                lineNumber: 229,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2891,25 +2904,25 @@ function Home() {
                                                 children: "100%"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 228,
+                                                lineNumber: 230,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 225,
+                                        lineNumber: 227,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/page.tsx",
-                                lineNumber: 198,
+                                lineNumber: 200,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/page.tsx",
-                        lineNumber: 128,
+                        lineNumber: 130,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$BoletimForm$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -2918,17 +2931,19 @@ function Home() {
                         showErrors: showBoletimErrors
                     }, void 0, false, {
                         fileName: "[project]/src/app/page.tsx",
-                        lineNumber: 234,
+                        lineNumber: 236,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$OficiaisForm$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                         title: "Oficiais Responsáveis",
                         oficiais: oficiais,
                         onChange: setOficiais,
-                        restricaoPatente: true
+                        restricaoPatente: true,
+                        required: true,
+                        invalid: showOficiaisErrors && oficiais.length === 0
                     }, void 0, false, {
                         fileName: "[project]/src/app/page.tsx",
-                        lineNumber: 237,
+                        lineNumber: 239,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$OficiaisForm$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -2937,7 +2952,7 @@ function Home() {
                         onChange: setOficiaisEnvolvidos
                     }, void 0, false, {
                         fileName: "[project]/src/app/page.tsx",
-                        lineNumber: 245,
+                        lineNumber: 249,
                         columnNumber: 9
                     }, this),
                     !fianca && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$AdvogadoForm$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -2945,13 +2960,13 @@ function Home() {
                         onChange: setAdvogados
                     }, void 0, false, {
                         fileName: "[project]/src/app/page.tsx",
-                        lineNumber: 253,
+                        lineNumber: 257,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/page.tsx",
-                lineNumber: 125,
+                lineNumber: 127,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
@@ -2964,7 +2979,7 @@ function Home() {
                             onChange: handleChange
                         }, cat.id, false, {
                             fileName: "[project]/src/app/page.tsx",
-                            lineNumber: 260,
+                            lineNumber: 264,
                             columnNumber: 11
                         }, this)),
                     search && __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$data$2f$crimes$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CATEGORIES"].every((cat)=>!cat.crimes.some((c)=>c.name.toLowerCase().includes(search.toLowerCase()))) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2975,7 +2990,7 @@ function Home() {
                                 className: "mx-auto mb-3 opacity-30"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/page.tsx",
-                                lineNumber: 273,
+                                lineNumber: 277,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2987,19 +3002,19 @@ function Home() {
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/page.tsx",
-                                lineNumber: 274,
+                                lineNumber: 278,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/page.tsx",
-                        lineNumber: 272,
+                        lineNumber: 276,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/page.tsx",
-                lineNumber: 258,
+                lineNumber: 262,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$SummaryPanel$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -3017,16 +3032,19 @@ function Home() {
                 oficiaisEnvolvidos: oficiaisEnvolvidos,
                 advogados: advogados,
                 onClear: handleClear,
-                onCopyAttemptWithErrors: ()=>setShowBoletimErrors(true)
+                onCopyAttemptWithErrors: ()=>{
+                    setShowBoletimErrors(true);
+                    setShowOficiaisErrors(true);
+                }
             }, void 0, false, {
                 fileName: "[project]/src/app/page.tsx",
-                lineNumber: 279,
+                lineNumber: 283,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/page.tsx",
-        lineNumber: 83,
+        lineNumber: 85,
         columnNumber: 5
     }, this);
 }

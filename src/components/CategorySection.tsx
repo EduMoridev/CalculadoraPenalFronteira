@@ -40,18 +40,18 @@ export default function CategorySection({ category, counts, search, onChange }: 
   return (
     <section className="mb-8">
       <div className="flex items-center gap-2.5 mb-4">
-        <div className="p-1.5 rounded-lg bg-slate-800 text-slate-400">
+        <div className="p-1.5 rounded-lg bg-white/5 backdrop-blur-md ring-1 ring-white/10 text-slate-400">
           <Icon size={16} />
         </div>
         <h2 className="text-sm font-semibold text-slate-300 uppercase tracking-widest">
           {category.label}
         </h2>
         {selectedInCategory > 0 && (
-          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-blue-600 text-white">
+          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-green-600 text-white">
             {selectedInCategory}
           </span>
         )}
-        <div className="flex-1 h-px bg-slate-800" />
+        <div className="flex-1 h-px bg-white/10" />
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">

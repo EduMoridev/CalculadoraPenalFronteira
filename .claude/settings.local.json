@@ -1,7 +1,7 @@
 {
   "permissions": {
     "allow": [
-      "Read(//c/Users/EDUARDO/AppData/Roaming/Claude/local-agent-mode-sessions/skills-plugin/d1afab55-3b86-4b93-8494-a3d2322beddd/054497ac-e36e-4532-9496-944253c45b88/skills/xlsx/**)",
+      "Read(//c/Users/EDUARDO/AppData/Roaming/Claude/locl-agent-mode-sessions/skills-plugin/d1afab55-3b86-4b93-8494-a3d2322beddd/054497ac-e36e-4532-9496-944253c45b88/skills/xlsx/**)",
       "Bash(python -c ' *)",
       "Bash(py -3 -c ' *)",
       "Read(//usr/**)",
@@ -19,7 +19,12 @@
       "Bash(npm run *)",
       "Bash(curl -s http://localhost:3000)",
       "Bash(curl -s http://localhost:3000 -o /dev/null -w \"%{http_code}\")",
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "Bash(xargs ls -la)",
+      "Bash(echo \"exit:$?\")",
+      "Bash(sed -i 's/bg-slate-900 ring-1 ring-slate-700 rounded-xl overflow-hidden/bg-white\\\\/5 backdrop-blur-md ring-1 ring-white\\\\/10 rounded-xl overflow-hidden/' src/components/AdvogadoForm.tsx)",
+      "Bash(sed -i 's/bg-slate-900 ring-1 ring-slate-700 rounded-xl px-4 py-3/bg-white\\\\/5 backdrop-blur-md ring-1 ring-white\\\\/10 rounded-xl px-4 py-3/' src/components/BoletimForm.tsx)",
+      "Bash(pkill -f \"next dev\")"
     ]
   }
 }

@@ -13,7 +13,12 @@ html {
 }
 
 body {
-  background-color: #020617;
+  background-color: #0a0c0b;
+  background-image:
+    radial-gradient(60rem 40rem at 12% -8%, rgba(16, 185, 129, 0.10), transparent 60%),
+    radial-gradient(50rem 35rem at 100% 0%, rgba(16, 185, 129, 0.06), transparent 55%),
+    radial-gradient(60rem 50rem at 50% 110%, rgba(16, 185, 129, 0.05), transparent 60%);
+  background-attachment: fixed;
   color: #e2e8f0;
   font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
 }

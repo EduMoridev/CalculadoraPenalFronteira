@@ -25,7 +25,7 @@ function MountainSVG({ size }: { size: number }) {
            L152 228 L146 220 L130 226 L114 220 L108 228
            L36 228
            Q20 226 30 210 Z"
-        stroke="#2dd4bf"
+        stroke="#34d399"
         strokeWidth="3"
         fill="none"
         strokeLinejoin="round"
@@ -34,7 +34,7 @@ function MountainSVG({ size }: { size: number }) {
       {/* Center mountain inner detail */}
       <path
         d="M114 222 L120 175 L125 185 L130 158 L135 185 L140 175 L146 222"
-        stroke="#2dd4bf"
+        stroke="#34d399"
         strokeWidth="2"
         fill="none"
         strokeLinejoin="round"
@@ -43,7 +43,7 @@ function MountainSVG({ size }: { size: number }) {
       {/* Left mountain inner detail */}
       <path
         d="M52 218 L60 186 L66 195 L76 168 L83 180 L90 210"
-        stroke="#2dd4bf"
+        stroke="#34d399"
         strokeWidth="2"
         fill="none"
         strokeLinejoin="round"
@@ -52,7 +52,7 @@ function MountainSVG({ size }: { size: number }) {
       {/* Right mountain inner detail */}
       <path
         d="M170 210 L177 180 L184 168 L194 195 L200 186 L208 218"
-        stroke="#2dd4bf"
+        stroke="#34d399"
         strokeWidth="2"
         fill="none"
         strokeLinejoin="round"
@@ -61,7 +61,7 @@ function MountainSVG({ size }: { size: number }) {
       {/* Base chevron */}
       <path
         d="M108 226 L122 215 L130 220 L138 215 L152 226"
-        stroke="#2dd4bf"
+        stroke="#34d399"
         strokeWidth="2"
         fill="none"
         strokeLinejoin="round"

@@ -22,6 +22,7 @@ export default function Home() {
   const [advogados, setAdvogados] = useState<Advogado[]>([]);
   const [fianca, setFianca] = useState(false);
   const [showBoletimErrors, setShowBoletimErrors] = useState(false);
+  const [showOficiaisErrors, setShowOficiaisErrors] = useState(false);
 
   const handleChange = useCallback((id: string, selected: boolean) => {
     setCounts((prev) => {
@@ -45,6 +46,7 @@ export default function Home() {
     setAdvogados([]);
     setFianca(false);
     setShowBoletimErrors(false);
+    setShowOficiaisErrors(false);
   }, []);
 
   const { baseMulta, baseMeses, finalMulta, finalMeses, finalFianca } = useMemo(() => {
@@ -80,9 +82,9 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 pb-28">
+    <div className="min-h-screen pb-28">
       {/* ── Header ── */}
-      <header className="sticky top-0 z-40 bg-slate-950/90 backdrop-blur-md border-b border-slate-800">
+      <header className="sticky top-0 z-40 bg-black/30 backdrop-blur-xl border-b border-white/10 shadow-[0_1px_24px_rgba(16,185,129,0.06)]">
         <div className="max-w-7xl mx-auto px-4 py-2.5 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3 shrink-0">
             <FronteiraLogo size={40} />
@@ -95,7 +97,7 @@ export default function Home() {
 
           {selectedCount > 0 && (
             <div className="hidden md:flex items-center gap-2 text-xs text-slate-400">
-              <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
               {selectedCount} {selectedCount === 1 ? "crime selecionado" : "crimes selecionados"}
             </div>
           )}
@@ -107,7 +109,7 @@ export default function Home() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Buscar crime..."
-              className="w-full bg-slate-800/80 border border-slate-700 rounded-lg pl-8 pr-8 py-1.5 text-sm text-slate-200 placeholder-slate-500 outline-none focus:border-teal-600 focus:ring-1 focus:ring-teal-600/30 transition-all"
+              className="w-full bg-white/5 backdrop-blur-md border border-white/10 rounded-lg pl-8 pr-8 py-1.5 text-sm text-slate-200 placeholder-slate-500 outline-none focus:border-emerald-500/60 focus:ring-1 focus:ring-emerald-500/30 transition-all"
             />
             {search && (
               <button
@@ -132,14 +134,14 @@ export default function Home() {
             className={`
               flex items-center gap-3 px-4 py-3 rounded-xl ring-1 transition-all duration-200 flex-1 sm:flex-none text-left
               ${reuPrimario
-                ? "bg-teal-950/60 ring-teal-500 shadow-[0_0_16px_rgba(45,212,191,0.12)]"
-                : "bg-slate-900 ring-slate-700 hover:ring-slate-500"
+                ? "bg-emerald-950/60 ring-emerald-500 shadow-[0_0_16px_rgba(16,185,129,0.14)]"
+                : "bg-white/5 backdrop-blur-md ring-white/10 hover:ring-white/20"
               }
             `}
           >
             <div className={`
               w-5 h-5 rounded-md ring-1 flex items-center justify-center transition-all shrink-0
-              ${reuPrimario ? "bg-teal-500 ring-teal-400" : "bg-slate-800 ring-slate-600"}
+              ${reuPrimario ? "bg-emerald-500 ring-emerald-400" : "bg-slate-800 ring-slate-600"}
             `}>
               {reuPrimario && (
                 <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
@@ -149,13 +151,13 @@ export default function Home() {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <UserCheck size={14} className={reuPrimario ? "text-teal-400" : "text-slate-500"} />
-                <span className={`text-sm font-semibold ${reuPrimario ? "text-teal-300" : "text-slate-300"}`}>
+                <UserCheck size={14} className={reuPrimario ? "text-emerald-400" : "text-slate-500"} />
+                <span className={`text-sm font-semibold ${reuPrimario ? "text-emerald-300" : "text-slate-300"}`}>
                   Réu Primário
                 </span>
               </div>
               <p className="text-[10px] text-slate-500 mt-0.5">
-                Multa <span className="text-teal-500/80">−30%</span> · Pena <span className="text-teal-500/80">−20%</span>
+                Multa <span className="text-emerald-500/80">−30%</span> · Pena <span className="text-emerald-500/80">−20%</span>
               </p>
             </div>
           </button>
@@ -167,7 +169,7 @@ export default function Home() {
               flex items-center gap-3 px-4 py-3 rounded-xl ring-1 transition-all duration-200 flex-1 sm:flex-none text-left
               ${fianca
                 ? "bg-amber-950/60 ring-amber-500 shadow-[0_0_16px_rgba(245,158,11,0.15)]"
-                : "bg-slate-900 ring-slate-700 hover:ring-slate-500"
+                : "bg-white/5 backdrop-blur-md ring-white/10 hover:ring-white/20"
               }
             `}
           >
@@ -195,7 +197,7 @@ export default function Home() {
           </button>
 
           {/* Cooperação */}
-          <div className="flex-1 bg-slate-900 ring-1 ring-slate-700 rounded-xl px-4 py-3">
+          <div className="flex-1 bg-white/5 backdrop-blur-md ring-1 ring-white/10 rounded-xl px-4 py-3">
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
                 <Percent size={13} className={reducaoManual > 0 ? "text-violet-400" : "text-slate-500"} />
@@ -239,6 +241,8 @@ export default function Home() {
           oficiais={oficiais}
           onChange={setOficiais}
           restricaoPatente
+          required
+          invalid={showOficiaisErrors && oficiais.length === 0}
         />
 
         {/* Row 4: Oficiais Envolvidos (todos os cargos) */}
@@ -291,7 +295,10 @@ export default function Home() {
         oficiaisEnvolvidos={oficiaisEnvolvidos}
         advogados={advogados}
         onClear={handleClear}
-        onCopyAttemptWithErrors={() => setShowBoletimErrors(true)}
+        onCopyAttemptWithErrors={() => {
+          setShowBoletimErrors(true);
+          setShowOficiaisErrors(true);
+        }}
       />
     </div>
   );

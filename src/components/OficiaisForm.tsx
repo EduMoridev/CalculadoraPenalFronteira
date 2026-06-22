@@ -69,6 +69,8 @@ interface Props {
   oficiais: Oficial[];
   onChange: (oficiais: Oficial[]) => void;
   restricaoPatente?: boolean;
+  required?: boolean;
+  invalid?: boolean;
 }
 
 export default function OficiaisForm({
@@ -76,6 +78,8 @@ export default function OficiaisForm({
   oficiais,
   onChange,
   restricaoPatente = false,
+  required = false,
+  invalid = false,
 }: Props) {
   const [expanded, setExpanded] = useState(false);
   const [guarnicao, setGuarnicao] = useState<string>("PRN");
@@ -113,7 +117,11 @@ export default function OficiaisForm({
   };
 
   return (
-    <div className="bg-slate-900 ring-1 ring-slate-700 rounded-xl overflow-hidden">
+    <div
+      className={`bg-white/5 backdrop-blur-md ring-1 rounded-xl overflow-hidden ${
+        invalid ? "ring-red-600/70" : "ring-white/10"
+      }`}
+    >
       {/* Header / toggle */}
       <button
         onClick={() => setExpanded((v) => !v)}
@@ -122,13 +130,14 @@ export default function OficiaisForm({
         <div className="flex items-center gap-2">
           <Shield
             size={13}
-            className={oficiais.length > 0 ? "text-teal-400" : "text-slate-500"}
+            className={oficiais.length > 0 ? "text-emerald-400" : "text-slate-500"}
           />
-          <span className="text-[10px] font-semibold uppercase tracking-widest text-slate-400">
+          <span className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 flex items-center gap-1">
             {title}
+            {required && <span className="text-red-500 font-bold">*</span>}
           </span>
           {oficiais.length > 0 && (
-            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-teal-600 text-white">
+            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-emerald-600 text-white">
               {oficiais.length}
             </span>
           )}
@@ -152,7 +161,7 @@ export default function OficiaisForm({
               <select
                 value={guarnicao}
                 onChange={(e) => handleGuarnicaoChange(e.target.value)}
-                className="bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-slate-200 outline-none focus:border-teal-600/60 cursor-pointer"
+                className="bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-slate-200 outline-none focus:border-emerald-600/60 cursor-pointer"
               >
                 {GUARNICOES.map((g) => (
                   <option key={g} value={g}>
@@ -170,7 +179,7 @@ export default function OficiaisForm({
               <select
                 value={patente}
                 onChange={(e) => setPatente(e.target.value)}
-                className="bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-slate-200 outline-none focus:border-teal-600/60 cursor-pointer w-full"
+                className="bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm text-slate-200 outline-none focus:border-emerald-600/60 cursor-pointer w-full"
               >
                 {getPatentes(guarnicao, restricaoPatente).map((p) => (
                   <option key={p} value={p}>
@@ -191,7 +200,7 @@ export default function OficiaisForm({
                 onChange={(e) => setId(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="ID..."
-                className="bg-slate-800/60 border border-slate-700 rounded-lg px-3 py-1.5 text-sm text-slate-200 placeholder-slate-600 outline-none focus:border-teal-600/60 focus:ring-1 focus:ring-teal-600/20 transition-all"
+                className="bg-slate-800/60 border border-slate-700 rounded-lg px-3 py-1.5 text-sm text-slate-200 placeholder-slate-600 outline-none focus:border-emerald-600/60 focus:ring-1 focus:ring-emerald-600/20 transition-all"
               />
             </div>
 
@@ -206,7 +215,7 @@ export default function OficiaisForm({
                 onChange={(e) => setNome(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Nome completo..."
-                className="bg-slate-800/60 border border-slate-700 rounded-lg px-3 py-1.5 text-sm text-slate-200 placeholder-slate-600 outline-none focus:border-teal-600/60 focus:ring-1 focus:ring-teal-600/20 transition-all"
+                className="bg-slate-800/60 border border-slate-700 rounded-lg px-3 py-1.5 text-sm text-slate-200 placeholder-slate-600 outline-none focus:border-emerald-600/60 focus:ring-1 focus:ring-emerald-600/20 transition-all"
               />
             </div>
 
@@ -216,7 +225,7 @@ export default function OficiaisForm({
               <button
                 onClick={handleAdd}
                 disabled={!nome.trim()}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-teal-700 hover:bg-teal-600 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-700 hover:bg-emerald-600 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all"
               >
                 <Plus size={13} />
                 Adicionar
@@ -257,8 +266,8 @@ export default function OficiaisForm({
           )}
 
           {oficiais.length === 0 && (
-            <p className="text-[11px] text-slate-600 mt-3 italic">
-              Nenhum oficial adicionado ainda.
+            <p className={`text-[11px] mt-3 italic ${invalid ? "text-red-500" : "text-slate-600"}`}>
+              {invalid ? "Campo obrigatório: adicione ao menos um oficial." : "Nenhum oficial adicionado ainda."}
             </p>
           )}
         </div>

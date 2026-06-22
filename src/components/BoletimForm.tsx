@@ -47,7 +47,7 @@ function Field({
           placeholder-slate-600 outline-none transition-all
           ${invalid
             ? "border-red-600/70 ring-1 ring-red-600/30 focus:border-red-500"
-            : "border-slate-700 focus:border-teal-600/60 focus:ring-1 focus:ring-teal-600/20"
+            : "border-slate-700 focus:border-emerald-600/60 focus:ring-1 focus:ring-emerald-600/20"
           }
         `}
       />
@@ -63,7 +63,7 @@ export default function BoletimForm({ data, onChange, showErrors = false }: Prop
     onChange({ ...data, [key]: val });
 
   return (
-    <div className="bg-slate-900 ring-1 ring-slate-700 rounded-xl px-4 py-3">
+    <div className="bg-white/5 backdrop-blur-md ring-1 ring-white/10 rounded-xl px-4 py-3">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <FileText size={13} className="text-slate-500" />
